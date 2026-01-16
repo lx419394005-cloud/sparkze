@@ -75,42 +75,40 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.action === 'start_sidepanel_analysis') {
     const { imageUrl, pageUrl } = request;
-    const tryOpen = async (tabId) => {
-      try {
-        // 尝试打开侧栏 - 优先执行以捕获用户手势
-        // 注意：在 Chrome Extension 中，sendMessage 的接收端通常被认为是在用户手势上下文中，
-        // 但 await 异步操作可能会导致手势丢失。因此先尝试打开。
-        // 如果侧栏已经在该 tab 打开，这步操作是无害的。
-        await chrome.sidePanel.open({ tabId });
-        
-        // 确保 sidepanel 配置正确 (这一步可能不是必须的，如果默认配置就是对的)
-        // 但为了保险起见，我们还是设置一下，但不阻塞后续逻辑的启动
-        chrome.sidePanel.setOptions({ tabId, path: 'sidepanel.html', enabled: true }).catch(err => SparkzeUtils.logger.warn('setOptions failed:', err));
-
-        // 启动分析逻辑
-        runSidepanelAnalysis(imageUrl, pageUrl);
-        sendResponse({ success: true });
-      } catch (e) {
-        console.error('[Sparkze] Failed to open sidepanel:', e);
-        // 如果 open 失败，可能是因为某些特殊的上下文问题，我们尝试 fallback
-        // 但 sidePanel.open 是唯一的打开方式
-        sendResponse({ success: false, error: e?.message || 'open_sidepanel_failed' });
+    
+    // 检查是否有分析正在进行
+    chrome.storage.local.get(['currentAnalysis'], ({ currentAnalysis }) => {
+      if (currentAnalysis?.stage === 'loading') {
+        sendResponse({ success: false, error: 'analysis_in_progress' });
+        return;
       }
-    };
 
-    const tabId = sender.tab?.id;
-    if (tabId) {
-      tryOpen(tabId);
-    } else {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const activeTabId = tabs?.[0]?.id;
-        if (!activeTabId) {
-          sendResponse({ success: false, error: 'missing_tab_id' });
-          return;
+      const tryOpen = async (tabId) => {
+        try {
+          await chrome.sidePanel.open({ tabId });
+          chrome.sidePanel.setOptions({ tabId, path: 'sidepanel.html', enabled: true }).catch(err => SparkzeUtils.logger.warn('setOptions failed:', err));
+          runSidepanelAnalysis(imageUrl, pageUrl);
+          sendResponse({ success: true });
+        } catch (e) {
+          console.error('[Sparkze] Failed to open sidepanel:', e);
+          sendResponse({ success: false, error: e?.message || 'open_sidepanel_failed' });
         }
-        tryOpen(activeTabId);
-      });
-    }
+      };
+
+      const tabId = sender.tab?.id;
+      if (tabId) {
+        tryOpen(tabId);
+      } else {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          const activeTabId = tabs?.[0]?.id;
+          if (!activeTabId) {
+            sendResponse({ success: false, error: 'missing_tab_id' });
+            return;
+          }
+          tryOpen(activeTabId);
+        });
+      }
+    });
     return true;
   }
 
@@ -163,12 +161,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       activeAnalysisController.abort();
       activeAnalysisController = null;
       SparkzeUtils.logger.log('分析已由用户手动取消');
-      // 通知 sidepanel 取消成功
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs[0]?.id) {
-          chrome.tabs.sendMessage(tabs[0].id, { action: 'analysis_cancelled' });
-        }
-      });
     }
     sendResponse({ success: true });
     return true;
@@ -345,7 +337,7 @@ async function callGemini(imageData, config, modelId, signal, updateStatus) {
     }
   }
 
-  SparkzeUtils.logger.log('Gemini Stream Response Received');
+  // SparkzeUtils.logger.log('Gemini Stream Response Received');
 
   try {
     const jsonStr = fullContent.replace(/```json\n?|```/g, '').trim();
@@ -469,7 +461,7 @@ async function callVolcengine(imageData, config, modelId, signal, updateStatus) 
     }
   }
 
-  SparkzeUtils.logger.log('Volcengine Stream Response Received');
+  // SparkzeUtils.logger.log('Volcengine Stream Response Received');
 
   // 流结束后提取 content
   const lines = buffer.split('\n');

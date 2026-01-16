@@ -404,6 +404,9 @@
     }, (response) => {
       if (chrome.runtime.lastError) {
         console.error('[Sparkze] Send message failed:', chrome.runtime.lastError);
+      } else if (response && !response.success && response.error === 'analysis_in_progress') {
+        // 显示提示：有分析正在进行
+        alert('有分析正在进行中，请等待分析完成后再点击');
       } else {
         console.log('[Sparkze] Message response:', response);
       }
