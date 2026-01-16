@@ -73,9 +73,8 @@
 - **Vanilla JavaScript** - No frameworks, pure ES6+
 - **Chrome Extension API** - Manifest V3
 - **AI Services**:
-  - Google Gemini Vision
-  - Volcengine Doubao Vision
-  - Volcengine Jimeng (Image Generation)
+  - Google Gemini Vision API
+  - Volcengine ARK Platform (Doubao Vision & Jimeng)
 - **Storage**: Chrome Local Storage
 
 ## 📁 Project Structure
@@ -130,20 +129,9 @@ No build process required! Load directly in Chrome.
 
 Get your API keys:
 - **Google Gemini**: [AI Studio](https://aistudio.google.com/app/apikey)
-- **Volcengine**: [ARK Console](https://console.volcengine.com/ark)
+- **Volcengine ARK**: [ARK Console](https://console.volcengine.com/ark)
 
-### Supported Models
-
-**Analysis**:
-- Gemini 1.5 Flash
-- Gemini 1.5 Pro
-- Doubao Vision Pro
-- Doubao Vision Lite
-
-**Drawing**:
-- Jimeng 1.4
-- Jimeng 1.4 Turbo
-- Jimeng 1.4 Ultra
+Configure your preferred AI provider and model in the extension settings.
 
 ## 🤝 Contributing
 
