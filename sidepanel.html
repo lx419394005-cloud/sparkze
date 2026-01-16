@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+  <script src="utils.js"></script>
+</head>
+<body class="sidepanel-body notranslate" translate="no">
+  <div class="sidepanel-container">
+    <div class="sidepanel-header">
+      <div class="header-main">
+        <img src="icons/icon.svg" class="sidepanel-logo" alt="Sparkze">
+        <span>Sparkze 灵感收藏夹</span>
+      </div>
+      <button id="open-gallery" title="在新标签页打开完整画廊">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="sidepanel-tabs">
+      <button class="sidepanel-tab active" data-tab="gallery">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        收藏
+      </button>
+      <button class="sidepanel-tab" data-tab="wiki">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        百科
+      </button>
+      <button class="sidepanel-tab" data-tab="draw">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+          <path d="M2 2l7.586 7.586"></path>
+          <circle cx="11" cy="11" r="2"></circle>
+        </svg>
+        AI 绘图
+      </button>
+    </div>
+    <div id="analysis-view" class="sidepanel-analysis-view" style="display: none;">
+      <!-- 实时分析内容将在这里渲染 -->
+    </div>
+    <div id="wiki-view" class="sidepanel-wiki-view" style="display: none;">
+      <!-- 百科标签云将在这里渲染 -->
+    </div>
+    <div id="main-view">
+      <div class="sidepanel-search-bar">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="sidepanel-search" placeholder="搜索收藏的灵感、标签或艺术家...">
+          <button id="clear-search" class="clear-search-btn" title="清除搜索">&times;</button>
+        </div>
+        <div id="filter-indicator" class="filter-indicator" style="display: none;">
+          <span class="filter-label">正在筛选:</span>
+          <span id="active-filter-text" class="active-filter-tag"></span>
+          <button id="remove-filter" class="remove-filter-btn">&times;</button>
+        </div>
+      </div>
+      <div id="image-list" class="sidepanel-content">
+        <!-- 图片卡片将在这里渲染 -->
+      </div>
+    </div>
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

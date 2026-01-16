@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparkze 灵感画廊 - 完整版</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="utils.js"></script>
+</head>
+<body class="gallery-body notranslate" translate="no">
+  <div class="gallery-layout">
+    <!-- Sidebar -->
+    <aside class="gallery-sidebar" id="gallery-sidebar">
+      <div class="sidebar-header">
+        <div class="header-main">
+          <img src="icons/icon.svg" class="sidepanel-logo" alt="Sparkze">
+          <h1 class="sidebar-title">Sparkze</h1>
+          <button id="toggle-sidebar" class="icon-btn-mini" title="折叠侧边栏">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="stats-badge" id="total-count">0 项收藏</div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="功能导航">
+        <button class="sidebar-nav-item active" data-view="gallery">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>灵感</span>
+        </button>
+        <button class="sidebar-nav-item" data-view="draw">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+            <path d="M2 2l7.586 7.586"></path>
+            <circle cx="11" cy="11" r="2"></circle>
+          </svg>
+          <span>绘图</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-scroll-area">
+        <div class="sidebar-section" id="section-wiki-entry">
+          <div class="section-header">
+            <h3 class="section-title">百科</h3>
+          </div>
+          <div class="filter-group section-content">
+            <button class="sidebar-nav-subitem" data-view="wiki" data-wiki-type="tag">标签百科</button>
+            <button class="sidebar-nav-subitem" data-view="wiki" data-wiki-type="artist">艺术家百科</button>
+          </div>
+        </div>
+        <!-- Popular Tags -->
+        <div class="sidebar-section collapsible" id="section-tags">
+          <div class="section-header">
+            <h3 class="section-title">热门标签</h3>
+            <div class="header-actions">
+              <button class="view-all-wiki icon-btn-mini" data-wiki-target="tags" title="查看所有标签百科">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+              </button>
+              <button class="section-toggle">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="filter-group section-content" id="tag-filters">
+            <!-- 标签将动态注入 -->
+          </div>
+        </div>
+
+        <!-- Artists -->
+        <div class="sidebar-section collapsible" id="section-artists">
+          <div class="section-header">
+            <h3 class="section-title">风格艺术家</h3>
+            <div class="header-actions">
+              <button class="view-all-wiki icon-btn-mini" data-wiki-target="artists" title="查看所有艺术家百科">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </button>
+              <button class="section-toggle">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="filter-group section-content" id="artist-filters">
+            <!-- 艺术家将动态注入 -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Toggle (Collapsed State) -->
+    <button id="expand-sidebar" class="expand-sidebar-btn" style="display: none;" title="展开侧边栏">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"></path>
+      </svg>
+    </button>
+
+    <!-- Main Content -->
+    <main class="gallery-main">
+      <!-- Gallery View -->
+      <div id="gallery-view">
+        <div class="gallery-content-header">
+          <div class="header-top-row">
+            <!-- Search Bar -->
+            <div class="content-search-section">
+              <div class="search-input-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="gallery-search" placeholder="搜索灵感、标签、艺术家...">
+                <button id="clear-search" class="clear-search-btn">&times;</button>
+              </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="content-categories-section">
+              <div class="filter-group" id="category-filters">
+                <button class="filter-chip active" data-filter="all">全部作品</button>
+                <!-- 分类将动态注入 (限6个) -->
+              </div>
+            </div>
+
+            <!-- Bulk Actions Toggle -->
+            <div class="header-bulk-actions">
+              <button id="toggle-bulk-mode" class="icon-btn-text" title="批量管理">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 11l3 3L22 4"></path>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+                <span>批量管理</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tag Wiki Area -->
+          <div id="tag-wiki-container" class="tag-wiki-container" style="display: none;">
+            <div class="wiki-header-tabs">
+              <div class="wiki-tabs">
+                <button class="wiki-tab active" data-wiki-tab="active">当前筛选</button>
+                <button class="wiki-tab" data-wiki-tab="tags">所有标签</button>
+                <button class="wiki-tab" data-wiki-tab="artists">所有艺术家</button>
+              </div>
+              <button id="hide-wiki-btn" class="hide-wiki-btn" title="隐藏 Wiki 面板">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="wiki-cards-list" class="wiki-cards-list">
+              <!-- Wiki 卡片将在此动态渲染 -->
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid">
+          <!-- 画廊内容 -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="gallery-pagination" id="gallery-pagination">
+          <button class="page-btn page-prev" id="page-prev">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"></path>
+            </svg>
+          </button>
+          <div class="page-numbers" id="page-numbers">
+            <!-- 页码将动态渲染 -->
+          </div>
+          <button class="page-btn page-next" id="page-next">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Bulk Action Bar (Hidden by default) -->
+        <div id="bulk-action-bar" class="bulk-action-bar" style="display: none;">
+          <div class="bulk-info">
+            <span id="selected-count">已选择 0 项</span>
+          </div>
+          <div class="bulk-btns">
+            <button id="bulk-select-all" class="bulk-btn-secondary">全选</button>
+            <button id="bulk-download" class="bulk-btn-primary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              下载到本地
+            </button>
+            <button id="cancel-bulk-mode" class="bulk-btn-ghost">取消</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wiki View -->
+      <div id="wiki-view" style="display: none;">
+        <div class="gallery-content-header">
+           <div class="wiki-header-title">
+             <h2>标签与艺术家百科</h2>
+             <p>点击卡片筛选相关灵感</p>
+           </div>
+           <!-- Wiki Tabs -->
+           <div class="wiki-header-controls">
+             <div class="wiki-tabs-container">
+               <button class="wiki-filter-tab active" data-type="tag">标签</button>
+               <button class="wiki-filter-tab" data-type="artist">艺术家</button>
+             </div>
+             
+             <div class="wiki-search-container">
+               <div class="wiki-search-wrapper">
+                 <svg class="wiki-search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                   <circle cx="11" cy="11" r="8"></circle>
+                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                 </svg>
+                 <input type="text" id="wiki-search-input" placeholder="搜索百科...">
+                 <button id="clear-wiki-search" class="clear-wiki-search-btn" style="display: none;">&times;</button>
+               </div>
+               
+               <div class="wiki-sort-container">
+                 <select id="wiki-sort-select" class="wiki-sort-select">
+                   <option value="count">按数量排序</option>
+                   <option value="name">按名称排序</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+        </div>
+        <div class="wiki-grid-container" id="wiki-grid-container">
+           <!-- Wiki Cards and Results will be rendered here -->
+        </div>
+      </div>
+
+      <!-- Draw View - Chat Style -->
+      <div id="draw-view" style="display: none;">
+        <div class="chat-draw-container">
+          <!-- Chat Messages Area -->
+          <div class="chat-messages-area" id="chat-messages-area">
+            <!-- Welcome Message -->
+            <div class="chat-welcome-message" id="chat-welcome-message">
+              <div class="chat-welcome-icon">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+              </div>
+              <h3>AI 绘图助手</h3>
+              <p>描述你想要的图片，AI 会根据你的创意生成</p>
+              <div class="chat-suggestions">
+                <button class="chat-suggestion-btn" data-prompt="一只可爱的橘猫坐在窗台上，阳光透过窗户照进来">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  </svg>
+                  可爱的橘猫
+                </button>
+                <button class="chat-suggestion-btn" data-prompt="梦幻的星空下的城堡，紫色和蓝色的渐变">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path>
+                  </svg>
+                  梦幻星空城堡
+                </button>
+                <button class="chat-suggestion-btn" data-prompt="极简风格的咖啡杯，浅色背景">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 8h1a4 4 0 1 1 0 8h-1"></path>
+                    <path d="M6 8v9a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V8Z"></path>
+                    <line x1="6" y1="8" x2="17" y2="8"></line>
+                  </svg>
+                  极简咖啡杯
+                </button>
+                <button class="chat-suggestion-btn" data-prompt="赛博朋克风格的都市夜景，霓虹灯光">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="7" y1="8" x2="17" y2="8"></line>
+                    <line x1="7" y1="12" x2="17" y2="12"></line>
+                    <line x1="7" y1="16" x2="17" y2="16"></line>
+                  </svg>
+                  赛博朋克夜景
+                </button>
+              </div>
+            </div>
+
+            <!-- Chat History (generated images will appear here) -->
+            <div class="chat-history" id="chat-history" style="display: none;"></div>
+
+            <!-- Loading Message -->
+            <div class="chat-loading-message" id="chat-loading-message" style="display: none;">
+              <div class="chat-message chat-message-ai">
+                <div class="chat-avatar ai-avatar">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                </div>
+                <div class="chat-bubble">
+                  <div class="chat-loading-bubble">
+                    <div class="chat-loading-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <span>正在生成你的创意...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="chat-error-message" id="chat-error-message" style="display: none;">
+              <div class="chat-message chat-message-error">
+                <div class="chat-avatar error-avatar">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                </div>
+                <div class="chat-bubble error-bubble">
+                  <p class="chat-error-text"></p>
+                  <button class="chat-retry-btn" id="chat-retry-btn">重新生成</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Bar (Collapsible) -->
+          <div class="chat-settings-bar">
+            <button class="chat-settings-toggle" id="chat-settings-toggle" title="显示/隐藏设置">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+              <span>参数设置</span>
+            </button>
+            <div class="chat-settings-content" id="chat-settings-content" style="display: none;">
+              <div class="chat-setting-item">
+                <label>模型</label>
+                <div class="chat-radio-group">
+                  <label class="chat-radio-btn">
+                    <input type="radio" name="gallery-model" value="4-0" checked>
+                    <span>4.0</span>
+                  </label>
+                  <label class="chat-radio-btn">
+                    <input type="radio" name="gallery-model" value="4-5">
+                    <span>4.5</span>
+                  </label>
+                </div>
+              </div>
+              <div class="chat-setting-item">
+                <label>尺寸</label>
+                <div class="chat-radio-group small">
+                  <label class="chat-radio-btn">
+                    <input type="radio" name="gallery-size" value="1K">
+                    <span>1K</span>
+                  </label>
+                  <label class="chat-radio-btn">
+                    <input type="radio" name="gallery-size" value="2K" checked>
+                    <span>2K</span>
+                  </label>
+                  <label class="chat-radio-btn">
+                    <input type="radio" name="gallery-size" value="3K">
+                    <span>3K</span>
+                  </label>
+                </div>
+              </div>
+              <div class="chat-setting-item">
+                <label>水印</label>
+                <div class="chat-toggle-group">
+                  <label class="chat-toggle-btn">
+                    <input type="radio" name="gallery-watermark" value="true">
+                    <span>有</span>
+                  </label>
+                  <label class="chat-toggle-btn">
+                    <input type="radio" name="gallery-watermark" value="false" checked>
+                    <span>无</span>
+                  </label>
+                </div>
+              </div>
+              <div class="chat-setting-item sequential-group">
+                <label>组图</label>
+                <label class="chat-checkbox-toggle">
+                  <input type="checkbox" id="gallery-sequential-toggle">
+                  <span class="chat-checkmark"></span>
+                  <span>启用</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Area -->
+          <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+              <textarea id="gallery-prompt-input" class="chat-input"
+                placeholder="描述你想要生成的图片..." rows="1"></textarea>
+              <button id="gallery-generate-btn" class="chat-send-btn" disabled>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </button>
+            </div>
+            <div class="chat-input-footer">
+              <span class="chat-model-info">即梦 AI</span>
+              <span class="chat-tips">按 Enter 发送，Shift+Enter 换行</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Detail Panel -->
+      <aside class="gallery-detail-panel collapsed" id="gallery-detail-panel">
+        <div class="detail-panel-header">
+          <button id="delete-current-item" class="icon-btn-mini delete-btn-header" title="删除此收藏" style="display: none; color: #ef4444; margin-right: auto;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"></path>
+            </svg>
+          </button>
+          <button id="close-detail-panel" class="icon-btn-mini" title="折叠详情页">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="detail-panel-content" id="detail-panel-content">
+          <div class="detail-empty-state">
+            <div class="empty-icon">🖼️</div>
+            <p>点击图片查看详情</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Expand Detail Panel Button (Hidden by default) -->
+      <button id="expand-detail-panel" class="expand-detail-btn" style="display: none;" title="展开详情页">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+  </div>
+
+  <!-- Image Preview Modal -->
+  <div class="image-preview-modal" id="image-preview-modal">
+    <div class="preview-actions">
+      <button class="preview-action-btn delete-preview-btn" id="delete-preview" title="删除此收藏">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"></path>
+        </svg>
+      </button>
+      <button class="preview-action-btn close-preview-btn" id="close-preview" title="关闭预览">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <img id="preview-image" src="" alt="preview">
+  </div>
+
+  <script src="gallery.js"></script>
+</body>
+</html>

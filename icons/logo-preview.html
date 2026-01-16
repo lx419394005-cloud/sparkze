@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pinker Logo Preview</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 40px;
+    }
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    .logo-item {
+      text-align: center;
+      padding: 20px;
+      border: 2px solid #f0f0f0;
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+    .logo-item:hover {
+      border-color: #667eea;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+    .logo-item img {
+      max-width: 100%;
+      height: auto;
+    }
+    .logo-label {
+      margin-top: 15px;
+      font-weight: 600;
+      color: #666;
+    }
+    .backgrounds {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .bg-demo {
+      padding: 30px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bg-white { background: white; border: 1px solid #ddd; }
+    .bg-dark { background: #1a1a1a; }
+    .bg-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .design-notes {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+    .design-notes h3 {
+      margin-top: 0;
+      color: #667eea;
+    }
+    .design-notes ul {
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Pinker Logo Design</h1>
+    
+    <div class="logo-grid">
+      <div class="logo-item">
+        <img src="logo.svg" width="128" height="128" alt="Main Logo">
+        <div class="logo-label">主 Logo (128x128)</div>
+      </div>
+      
+      <div class="logo-item">
+        <img src="logo-simple.svg" width="128" height="128" alt="Simple Logo">
+        <div class="logo-label">简化版 (小尺寸)</div>
+      </div>
+      
+      <div class="logo-item">
+        <img src="logo.svg" width="48" height="48" alt="48px">
+        <div class="logo-label">48x48</div>
+      </div>
+      
+      <div class="logo-item">
+        <img src="logo-simple.svg" width="16" height="16" alt="16px">
+        <div class="logo-label">16x16 (工具栏)</div>
+      </div>
+    </div>
+
+    <h2 style="text-align: center; margin-top: 40px;">不同背景下的效果</h2>
+    <div class="backgrounds">
+      <div class="bg-demo bg-white">
+        <img src="logo.svg" width="80" height="80" alt="White BG">
+      </div>
+      <div class="bg-demo bg-dark">
+        <img src="logo.svg" width="80" height="80" alt="Dark BG">
+      </div>
+      <div class="bg-demo bg-gradient">
+        <img src="logo-simple.svg" width="80" height="80" alt="Gradient BG">
+      </div>
+    </div>
+
+    <div class="design-notes">
+      <h3>🎯 设计理念</h3>
+      <ul>
+        <li><strong>图钉 (Pin)</strong> - 代表"收藏"和"固定"灵感的核心功能</li>
+        <li><strong>AI 眼睛</strong> - 两个圆点象征 AI 视觉分析能力</li>
+        <li><strong>扫描线</strong> - 粉色线条表示智能识别和分析过程</li>
+        <li><strong>渐变色</strong> - 紫色到粉色的渐变体现创意和科技感</li>
+        <li><strong>简洁现代</strong> - 扁平化设计,适合各种尺寸显示</li>
+      </ul>
+
+      <h3>🎨 配色方案</h3>
+      <ul>
+        <li><strong>主色</strong>: #667eea → #764ba2 (紫色渐变)</li>
+        <li><strong>辅色</strong>: #f093fb → #f5576c (粉色渐变)</li>
+        <li><strong>白色</strong>: #ffffff (图钉主体)</li>
+      </ul>
+
+      <h3>📐 使用场景</h3>
+      <ul>
+        <li><strong>logo.svg</strong> - 主 logo,用于 48px 及以上尺寸</li>
+        <li><strong>logo-simple.svg</strong> - 简化版,用于 16px 小尺寸(工具栏图标)</li>
+        <li>两个版本都是矢量 SVG,可无损缩放</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

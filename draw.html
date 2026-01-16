@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+  <script src="utils.js"></script>
+</head>
+<body class="sidepanel-body notranslate" translate="no">
+  <div class="sidepanel-container">
+    <div class="sidepanel-header">
+      <div class="header-main">
+        <img src="icons/icon.svg" class="sidepanel-logo" alt="Sparkze">
+        <span>Sparkze 灵感收藏夹</span>
+      </div>
+      <button id="open-gallery" title="在新标签页打开完整画廊" style="display: none;">
+        <!-- Hide open gallery button in draw mode or keep it? Maybe keep it for consistency -->
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="sidepanel-tabs">
+      <button class="sidepanel-tab" data-tab="gallery">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        收藏
+      </button>
+      <button class="sidepanel-tab active" data-tab="draw">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+          <path d="M2 2l7.586 7.586"></path>
+          <circle cx="11" cy="11" r="2"></circle>
+        </svg>
+        AI 绘图
+      </button>
+    </div>
+
+    <div class="draw-form">
+      <div class="draw-header-title" style="margin-bottom: 20px;">
+        <h2 style="font-size: 18px; margin: 0 0 4px;">AI 绘图</h2>
+        <p class="draw-subtitle">使用即梦 AI 生成图片</p>
+      </div>
+
+      <!-- 模型选择 -->
+      <div class="draw-section">
+        <label class="draw-label">选择模型</label>
+        <div class="model-selector">
+          <label class="model-option">
+            <input type="radio" name="model" value="4-0" checked>
+            <span class="model-option-card">
+              <span class="model-name">即梦 4.0</span>
+              <span class="model-desc">快速生成</span>
+            </span>
+          </label>
+          <label class="model-option">
+            <input type="radio" name="model" value="4-5">
+            <span class="model-option-card">
+              <span class="model-name">即梦 4.5</span>
+              <span class="model-desc">高质量</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 提示词输入 -->
+      <div class="draw-section">
+        <label class="draw-label" for="prompt-input">提示词</label>
+        <textarea id="prompt-input" class="draw-textarea" placeholder="描述你想要生成的图片...&#10;例如：一只可爱的橘猫坐在窗台上，阳光透过窗户照进来"></textarea>
+      </div>
+
+      <!-- 参数选项 -->
+      <div class="draw-section">
+        <label class="draw-label">生成选项</label>
+        <div class="draw-options">
+          <div class="draw-option-group">
+            <label class="draw-option-label">尺寸</label>
+            <div class="size-selector">
+              <label class="size-option">
+                <input type="radio" name="size" value="1K">
+                <span>1K</span>
+              </label>
+              <label class="size-option">
+                <input type="radio" name="size" value="2K" checked>
+                <span>2K</span>
+              </label>
+              <label class="size-option">
+                <input type="radio" name="size" value="3K">
+                <span>3K</span>
+              </label>
+            </div>
+          </div>
+          <div class="draw-option-group">
+            <label class="draw-option-label">水印</label>
+            <div class="watermark-toggle">
+              <label class="toggle-option">
+                <input type="radio" name="watermark" value="true">
+                <span>有</span>
+              </label>
+              <label class="toggle-option">
+                <input type="radio" name="watermark" value="false" checked>
+                <span>无</span>
+              </label>
+            </div>
+          </div>
+          <div class="draw-option-group sequential-group">
+            <label class="draw-option-label">组图</label>
+            <label class="checkbox-toggle">
+              <input type="checkbox" id="sequential-toggle" name="sequential" value="auto">
+              <span class="checkmark"></span>
+              <span class="toggle-text">启用</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 生成按钮 -->
+      <button id="generate-btn" class="draw-generate-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        开始生成
+      </button>
+
+      <!-- 结果展示区域 -->
+      <div id="draw-loading" style="display: none; text-align: center; padding: 40px 0;">
+        <div class="loading-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <p class="loading-tips">AI 正在绘图中，请稍候...</p>
+      </div>
+
+      <div id="draw-error" style="display: none; padding: 20px; background: #fef2f2; border-radius: 12px; margin-top: 20px;">
+        <p class="draw-error-text" style="color: #ef4444; font-size: 13px; margin-bottom: 10px;">生成失败</p>
+        <button id="retry-btn" style="background: white; border: 1px solid #fecaca; color: #ef4444; padding: 6px 12px; border-radius: 6px; cursor: pointer;">重试</button>
+      </div>
+
+      <div id="draw-result" style="display: none; margin-top: 24px;">
+        <div class="result-image-wrapper" style="border-radius: 12px; overflow: hidden; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+          <div id="result-images" class="draw-result-images"></div>
+        </div>
+        <div class="result-actions" style="display: flex; gap: 10px;">
+          <button id="save-btn" class="picker-btn-save" style="flex: 1; height: 40px; font-size: 14px;">保存到收藏</button>
+          <button id="download-btn" class="picker-btn-close" style="flex: 1; height: 40px; font-size: 14px;">下载</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="draw.js"></script>
+</body>
+</html>

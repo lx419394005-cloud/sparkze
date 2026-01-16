@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sparkze Settings</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="utils.js"></script>
+</head>
+<body class="options-body notranslate" translate="no">
+  <div class="options-background-blob"></div>
+  <div class="options-layout">
+    <aside class="options-sidebar">
+      <div class="sidebar-header">
+        <img src="icons/icon.svg" alt="Sparkze Logo" class="sidebar-logo">
+        <span class="sidebar-title">Sparkze</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#settings" class="nav-item active" data-section="settings">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">设置</span>
+        </a>
+        <a href="#about" class="nav-item" data-section="about">
+          <span class="nav-icon">ℹ️</span>
+          <span class="nav-text">关于</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        v1.0.0
+      </div>
+    </aside>
+
+    <main class="options-main">
+      <div class="options-content-wrapper">
+        <!-- 设置分区 -->
+        <section id="section-settings" class="settings-section active">
+          <header class="section-header">
+            <h2>AI 模型配置</h2>
+            <p>添加并管理您的 AI 视觉分析模型</p>
+          </header>
+
+          <div class="settings-card">
+            <!-- 服务商选择 -->
+            <div class="settings-group">
+              <label for="provider">
+                <span class="label-text">服务商</span>
+                <span class="label-hint">选择您的 AI 服务提供商</span>
+              </label>
+              <div class="select-wrapper">
+                <select id="provider">
+                  <option value="volcengine">🌋 火山引擎 (Ark)</option>
+                  <option value="gemini">🔷 Google Gemini</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- API Key -->
+            <div class="settings-group">
+              <label for="api-key">
+                <span class="label-text">API Key</span>
+                <span class="label-hint" id="api-key-hint">火山引擎 API 密钥</span>
+              </label>
+              <div class="input-wrapper">
+                <input type="password" id="api-key" placeholder="••••••••••••••••">
+                <button id="toggle-password" class="icon-btn" title="显示/隐藏">👁️</button>
+              </div>
+            </div>
+
+            <!-- API 文档链接 -->
+            <div id="api-doc-link" class="api-doc-link">
+              <a href="https://console.volcengine.com/ark" target="_blank">🔗 获取火山引擎 API Key</a>
+            </div>
+
+            <!-- 添加模型表单 -->
+            <div class="add-model-form" style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #f1f5f9;">
+              <h3>添加模型</h3>
+              <div class="add-model-row">
+                <div class="settings-group" style="flex: 1;">
+                  <label for="new-model-name">
+                    <span class="label-text">显示名称</span>
+                  </label>
+                  <input type="text" id="new-model-name" placeholder="例如：我的 Doubao Pro">
+                </div>
+                <div class="settings-group" style="flex: 1;">
+                  <label for="new-model-id">
+                    <span class="label-text">模型 ID / 接入点</span>
+                  </label>
+                  <input type="text" id="new-model-id" placeholder="例如：doubao-1-5-vision-pro">
+                </div>
+              </div>
+              <button id="add-model-btn" class="picker-btn-save" style="width: auto;">
+                <span>➕ 添加模型</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 已添加的模型列表 -->
+          <div class="models-list-section" style="margin-top: 24px;">
+            <h3>已添加的模型</h3>
+            <div id="models-list" class="models-list">
+              <!-- 模型卡片将通过 JS 动态渲染 -->
+            </div>
+            <div id="no-models" class="no-models-tip">
+              <p>还没有添加任何模型</p>
+            </div>
+          </div>
+
+          <div class="settings-footer" style="margin-top: 24px;">
+            <button id="save-settings" class="picker-btn-save">
+              <span class="btn-text">保存配置</span>
+              <span class="btn-icon">✨</span>
+            </button>
+            <div id="status-msg"></div>
+          </div>
+
+          <div class="about-card" style="margin-top: 24px;">
+            <h3>开发者工具</h3>
+            <button id="reload-extension" class="picker-btn-close">🔄 立即重载插件</button>
+          </div>
+        </section>
+
+        <!-- 关于分区 -->
+        <section id="section-about" class="settings-section">
+          <header class="section-header">
+            <h2>关于 Sparkze</h2>
+            <p>让设计灵感激触可及</p>
+          </header>
+          <div class="settings-card about-card">
+            <div class="about-content">
+              <div class="about-logo-large">
+                <img src="icons/icon.svg" alt="Sparkze">
+              </div>
+              <h3>Sparkze v1.0.0</h3>
+              <p>Sparkze 是一款专为设计师和创意工作者打造的 Chrome 插件，利用先进的 AI 模型，为您提供深度的网页图片视觉分析。</p>
+
+              <div class="about-links">
+                <div class="link-group">
+                  <h4>反馈</h4>
+                  <a href="#">报告问题</a>
+                  <a href="#">功能建议</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

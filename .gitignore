@@ -1,0 +1,14 @@
+# Ignore
+.DS_Store
+.backup/
+node_modules/
+*.log
+
+# Test files
+test-*.html
+generate-*.html
+generate-*.js
+
+# Temporary
+*.tmp
+*.bak

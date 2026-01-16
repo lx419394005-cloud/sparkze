@@ -1,0 +1,96 @@
+# Task Todo List
+
+## Completed Tasks
+- [x] UI Optimization (2026-01-15)
+  - Refactored `styles.css` with CSS variables for colors, spacing, and shadows.
+  - Modernized button, input, and card styles.
+  - Unified `sidepanel.html` and `draw.html` layout with consistent header and tabs.
+  - Updated `gallery.html` pagination and tab styles.
+  - Added visual feedback (hover states, active states) to all interactive elements.
+- [x] Feature Updates & Bug Fixes (2026-01-15)
+  - **Bug Fix**: Resolved issue where manually adding tags cleared auto-generated tags in analysis view.
+  - **Sidepanel Wiki View**: 
+    - Added dedicated Wiki tab listing all collected tags.
+    - Implemented Pinterest search trigger on tag click.
+  - **Gallery Wiki View**:
+    - Added Wiki View tab with Tag and Artist filters.
+    - Implemented interaction where clicking a wiki card displays related images below.
+- [x] Wiki View Enhancement (2026-01-15)
+  - **Layout Optimization**: Redesigned wiki cards with better typography, icons, and interactive states.
+  - **Inline Results**: Implemented "Inline Expansion" for wiki results. Clicking a card now inserts a full-width results row directly below it instead of at the bottom of the page.
+  - **Visual Polish**: Added a pointer arrow and smooth transition animations for the expanded results area.
+  - **Style Fix**: Resolved a critical CSS syntax error (unclosed brackets) and added missing class definitions for wiki cards.
+- [x] Wiki Search & Sort (2026-01-15)
+  - **Search Bar**: Added a dedicated search bar for Wiki view with real-time filtering and a clear button.
+  - **Sorting**: Implemented sorting options to order items by "Count" (popularity) or "Name" (A-Z).
+  - **Empty States**: Added a user-friendly empty state when no search results are found.
+- [x] Bulk Management & Local Download (2026-01-15)
+  - **Bulk Selection**: Added a "Batch Manage" mode allowing users to select multiple images.
+  - **Selection UI**: Implemented visual indicators (checkmarks) and a floating action bar for selected items.
+  - **Bulk Download**: Integrated `chrome.downloads` API to allow downloading multiple selected images to the local machine at once.
+  - **Filtered Selection**: "Select All" functionality intelligently respects current search, category, and tag filters.
+- [x] Gallery Sidebar Navigation Refactor (2026-01-15)
+  - **Pinterest-like Nav**: Replaced top tabs with a left-side navigation list for primary modules.
+  - **Module Focus**: Promoted Inspiration and Drawing as the two main modules.
+  - **Wiki Entry**: Added a dedicated Wiki entry section in the sidebar to access Tag/Artist wiki pages.
+- [x] Manifest Permission Update (2026-01-15)
+  - **Downloads Permission**: Added `downloads` permission to enable batch download to local.
+- [x] UI 视觉体系收敛与一致性修复 (2026-01-15)
+  - Scoped shared class names to avoid cross-page CSS collisions (gallery/options).
+  - Unified navigation tab layout and interaction surfaces for gallery sidebar.
+  - Centralized toast styling into `styles.css` and removed runtime injection in `draw.js`.
+  - Added consistent focus-visible ring for links and buttons.
+- [x] Gallery 交互恢复与手动标签展示 (2026-01-15)
+  - 修复 Gallery 卡片区域复制 Prompt 被详情打开拦截的问题。
+  - 统一从卡片节点读取 index，提升点击打开详情的稳定性。
+  - 手动标签写入 `isManual` 标记，并在 Gallery 详情面板中用警示色区分展示。
+  - 压紧侧边栏标签区：将区块标题间距与筛选标签间距调整为 6px。
+- [x] Gallery Prompt 覆盖层点击穿透 (2026-01-15)
+  - Prompt 覆盖层默认不拦截鼠标事件，仅复制按钮可点击。
+  - 双击预览时忽略复制按钮区域，避免误触发。
+- [x] Gallery 详情面板打不开修复 (2026-01-15)
+  - 修复 `getFilteredImages` 重复定义导致 `originalIndex` 丢失的问题，恢复点击打开详情。
+  - 批量全选改用 `originalIndex`，避免对象拷贝导致 indexOf 失效。
+- [x] 绘图多图渲染与保存策略修复 (2026-01-15)
+  - 绘图接口返回多张图片时，结果区域按网格并排展示全部图片。
+  - Gallery 绘图保存逻辑补齐 `updateTotalCount`，修复保存时报错 count fail。
+  - Gallery 绘图结果默认不自动入库，仅点击“保存全部”后写入收藏。
+- [x] 分析中显示体验修复 (2026-01-15)
+  - 修复分析页预览图在部分比例下显示不完整的问题。
+  - 分析中流式内容区域改为纵向滚动并撑满剩余空间。
+  - 生成过程增加跳动反馈，并修复 Gemini SSE 重复解析导致内容异常。
+- [x] Sidepanel 灵感详情手动标签绿色化 (2026-01-15)
+  - 已收藏的灵感详情里，带 `isManual` 的标签使用绿色主题展示。
+- [x] 分析页布局错乱回归修复 (2026-01-15)
+  - 回滚分析中卡片的强制撑满布局，恢复稳定排版与滚动行为。
+  - 预览图恢复按比例完整展示，避免被容器裁切。
+- [x] Badge 设置菜单、移动与快速收藏链路 (2026-01-15)
+  - Badge hover 显示设置按钮，弹出“移动 / 收藏”菜单。
+  - 移动模式支持拖拽定位，移动中屏蔽分析点击，并持久化偏移位置。
+  - 收藏支持无需 AI 分析直达灵感库，并在 sidepanel 提供分类与标签录入表单。
+- [x] Badge 快速收藏无响应修复 (2026-01-15)
+  - 触发快速收藏时强制切回 `sidepanel.html`，避免侧栏停留在 `draw.html` 导致无反应。
+- [x] Sidepanel 已打开时快速收藏跳转修复 (2026-01-15)
+  - 监听 `currentQuickSave` 的存储变化，避免 runtime 消息时序导致不跳转。
+- [x] 收藏自动打开侧栏增强 (2026-01-15)
+  - 收藏/分析触发时增加 activeTab 兜底，避免取不到 tabId 导致无法打开侧栏。
+- [x] 分析按钮点击无响应深度修复 (2026-01-15)
+  - 增强 `content.js` 监听：由主按钮监听改为整个 badge 区域监听（排除设置按钮），扩大点击有效区域。
+  - 完善 `background.js` 逻辑：使用 async/await 重构侧栏打开流程，确保侧栏在任何状态下都能正确切换到分析/收藏页。
+  - 增加关键链路 Console Log，方便在用户环境快速排查交互问题。
+- [x] 限制 badge 在图片区域内并加入展开动效 (2026-01-15)
+  - Badge 位置限制在图片矩形区域内，不再超出图片边界。
+  - Hover 时由单按钮展开为双按钮并带平滑过渡动效。
+- [x] Badge 分析点击无响应修复 (2026-01-15)
+  - 移动模式下点击主按钮会退出移动模式，避免误判为“移动中”导致分析被拦截。
+  - 拖拽移动过程也限制在图片区域内，防止拖出图片边界。
+- [x] Badge 点击无响应问题修复 (2026-01-15)
+  - **Context 丢失修复**: 修复 `background.js` 中 `open` sidepanel 前 `await` 其他操作导致用户手势上下文丢失的问题。
+  - **优先打开策略**: 调整执行顺序，收到消息后优先尝试 `chrome.sidePanel.open`。
+  - **日志增强**: 在 `content.js` 和 `background.js` 中增加关键路径的错误捕获与日志输出。
+- [x] Badge 收藏功能用户手势丢失修复 (2026-01-15)
+  - **同步策略应用**: 将 `background.js` 中 `start_sidepanel_quick_save` 的 `chrome.sidePanel.open` 调用提前，确保在用户手势上下文中执行，解决了点击“收藏”无反应的问题。
+- [x] 绘图页面双击放大与预览修复 (2026-01-15)
+  - 绘图页面生成的图片支持双击放大预览。
+  - 预览绘图生成的图片时自动隐藏删除按钮，防止误操作。
+  - 修复 Gallery 与详情页预览时删除按钮状态的正确显示。
